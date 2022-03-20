@@ -6,7 +6,7 @@ try:
     conn = MongoClient()
     db = conn.loyalty
     coll = db.loyalty
-    # conn.admin.command('ismaster')
+    conn.admin.command('ismaster')
     print("Mongo connection initiated successfully.")
 except ConnectionFailure:
     print("Could not connect to MongoDB")
@@ -38,6 +38,10 @@ def find(name):
         time.sleep(2)
 
 
+def delete(code):
+    query = {"code": code}
+    coll.delete_one(query)
+
 def update(option, old, new):
     if option == 1:
         where = {"name": old}
@@ -55,21 +59,20 @@ while a:
     print("1. Register Account")
     print("2. Find Code")
     print("3. Delete Account")
-    print("4. Change Account\n")
+    print("4. Update Account")
+    print("5. Exit\n")
     option = int(input("Please select an option:\n) "))
     if option == 1:
-        print("register")
         name = input("What is your name?\n) ")
         number = input("What is your phone number?\n) ")
         code = input("What is the code?\n) ")
         register(name, number, code)
     elif option == 2:
-        print("find")
         name = input("What is your name?\n) ")
         find(name)
     elif option == 3:
-        print("delete")
-        name = input("What is your name?\n) ")
+        code = input("What is your code?\n) ")
+        delete(code)
     elif option == 4:
         print("1. Change Name")
         print("2. Change Phone Number\n")
@@ -82,5 +85,8 @@ while a:
             curr_num = input("What is your current number?\n) ")
             new_num = input("What is your new number?\n) ")
             update(option, curr_num, new_num)
+    elif option == 5:
+        print("Goodbye.")
+        exit()
     else:
         print("Please select ONE of the FOUR options.")
