@@ -7,13 +7,12 @@ try:
     db = conn.loyalty
     coll = db.loyalty
     conn.admin.command('ismaster')
-    print("Mongo connection initiated successfully.")
+    print("Mongo connection initiated successfully.\n\n")
 except ConnectionFailure:
     print("Could not connect to MongoDB")
     exit()
 
 a = True
-
 
 def register(na, nu, co):
     record = {
@@ -41,6 +40,7 @@ def find(name):
 def delete(code):
     query = {"code": code}
     coll.delete_one(query)
+
 
 def update(option, old, new):
     if option == 1:
